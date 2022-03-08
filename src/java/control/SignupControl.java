@@ -6,11 +6,9 @@
 package control;
 
 import dao.DAO;
-import emlity.Category;
-import emlity.Product;
+import emlity.Account;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -21,8 +19,8 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author antoan
  */
-@WebServlet(name = "CategoryControl", urlPatterns = {"/category"})
-public class CategoryControl extends HttpServlet {
+@WebServlet(name = "SignupControl", urlPatterns = {"/signup"})
+public class SignupControl extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -36,21 +34,24 @@ public class CategoryControl extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        String cateID = request.getParameter("cid");
-        
-        DAO dao = new DAO();
-        List<Product> list = dao.getProductByCID(cateID);
-    
-        List<Category> listC = dao.getAllCategory();
-        Product last = dao.getLast();
-        
-        request.setAttribute("listP", list);
-        request.setAttribute("listCC", listC);
-        request.setAttribute("p", last);
-        request.setAttribute("tag", cateID);
-        request.getRequestDispatcher("Home.jsp").forward(request, response);
+        String user = request.getParameter("user");
+       String pass = request.getParameter("pass");
+       String re_pass = request.getParameter("repass");
+       
+       if(!pass.equals(re_pass)){
+           response.sendRedirect("Login.jsp");
+       }else{
+           DAO  dao = new DAO();
+           Account a = dao.checkAccountExist(user);
+           if(a == null){
+               dao.signup(user, pass);
+               response.sendRedirect("home");
+           }else{
+               response.sendRedirect("Login.jsp");
+           }
+       }
+       
     }
-
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.

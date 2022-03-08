@@ -21,8 +21,8 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author antoan
  */
-@WebServlet(name = "CategoryControl", urlPatterns = {"/category"})
-public class CategoryControl extends HttpServlet {
+@WebServlet(name = "SearchControl", urlPatterns = {"/search"})
+public class SearchControl extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -36,19 +36,21 @@ public class CategoryControl extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        String cateID = request.getParameter("cid");
+        request.setCharacterEncoding("UTF-8");
+        String txtSearch = request.getParameter("txt");
         
         DAO dao = new DAO();
-        List<Product> list = dao.getProductByCID(cateID);
-    
+        List<Product> list = dao.searchtByName(txtSearch);
         List<Category> listC = dao.getAllCategory();
         Product last = dao.getLast();
+        
         
         request.setAttribute("listP", list);
         request.setAttribute("listCC", listC);
         request.setAttribute("p", last);
-        request.setAttribute("tag", cateID);
+         request.setAttribute("txtS", txtSearch);
         request.getRequestDispatcher("Home.jsp").forward(request, response);
+            
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

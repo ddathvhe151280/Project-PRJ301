@@ -6,11 +6,9 @@
 package control;
 
 import dao.DAO;
-import emlity.Category;
-import emlity.Product;
+import emlity.Account;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -21,8 +19,8 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author antoan
  */
-@WebServlet(name = "CategoryControl", urlPatterns = {"/category"})
-public class CategoryControl extends HttpServlet {
+@WebServlet(name = "LoginControl", urlPatterns = {"/login"})
+public class LoginControl extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -36,19 +34,18 @@ public class CategoryControl extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        String cateID = request.getParameter("cid");
-        
-        DAO dao = new DAO();
-        List<Product> list = dao.getProductByCID(cateID);
-    
-        List<Category> listC = dao.getAllCategory();
-        Product last = dao.getLast();
-        
-        request.setAttribute("listP", list);
-        request.setAttribute("listCC", listC);
-        request.setAttribute("p", last);
-        request.setAttribute("tag", cateID);
-        request.getRequestDispatcher("Home.jsp").forward(request, response);
+      String username = request.getParameter("user");
+      String password = request.getParameter("pass");
+      DAO dao = new DAO();
+      Account a =  dao.login(username, password);
+      if(a==null){
+          request.setAttribute("mess", "Tên tài khoản hoặc mật khẩu không đúng");
+          request.getRequestDispatcher("Login.jsp").forward(request, response);
+      }else{
+          response.sendRedirect("home");
+      }
+              
+      
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

@@ -6,6 +6,7 @@
 package dao;
 
 import context.DBContext;
+import emlity.Account;
 import emlity.Category;
 import emlity.Product;
 import java.sql.Connection;
@@ -84,7 +85,27 @@ public class DAO {
         }
         return null;
     }
-
+ public List<Product> searchtByName(String txtSearch) {
+        List<Product> list = new ArrayList<>();
+        String query = "select * from product\n" +
+"where name like ?";
+        try {
+            conn = new DBContext().getConnection();//mo ket noi voi sql
+            ps = conn.prepareStatement(query);
+            ps.setString(1, "%" + txtSearch + "%");
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                list.add(new Product(rs.getInt(1),
+                        rs.getString(2),
+                        rs.getString(3),
+                        rs.getDouble(4),
+                        rs.getString(5),
+                        rs.getString(6)));
+            }
+        } catch (Exception e) {
+        }
+        return list;
+    }
     public List<Category> getAllCategory() {
         List<Category> list = new ArrayList<>();
         String query = "select * from Category";
@@ -100,7 +121,48 @@ public class DAO {
         }
         return list;
     }
-
+    public Account login(String user, String pass){
+        String query = "select * from Account\n" +
+"where [user] = ?\n" +
+"and pass = ?\n";
+        try {
+            conn = new DBContext().getConnection();//mo ket noi voi sql
+            ps = conn.prepareStatement(query);
+            ps.setString(1, user);
+            ps.setString(2, pass);
+            rs = ps.executeQuery();
+            while(rs.next()){
+                return new Account(rs.getInt(1), 
+                        rs.getString(2),                        
+                        rs.getString(3),
+                        rs.getInt(4),
+                        rs.getInt(5));
+            }
+        } catch (Exception e) {
+        }
+        return null;
+        
+    }
+     public Account checkAccountExist(String user){
+        String query = "select * from Account where [USER] = ?";
+        try {
+            conn = new DBContext().getConnection();//mo ket noi voi sql
+            ps = conn.prepareStatement(query);
+            ps.setString(1, user);
+            
+            rs = ps.executeQuery();
+            while(rs.next()){
+                return new Account(rs.getInt(1), 
+                        rs.getString(2),                        
+                        rs.getString(3),
+                        rs.getInt(4),
+                        rs.getInt(5));
+            }
+        } catch (Exception e) {
+        }
+        return null;
+        
+    }
     public Product getLast() {
         String query = "select top 1 * from product\n"
                 + "order by id desc";
@@ -119,6 +181,19 @@ public class DAO {
         } catch (Exception e) {
         }
         return null;
+    }
+    public void signup(String user, String pass){
+        String query = "insert into Account\n" +
+"values(?,?,?,?)";
+        try {
+            conn = new DBContext().getConnection();//mo ket noi voi sql
+            ps = conn.prepareStatement(query);
+            ps.setString(1, user);
+            ps.setString(2, pass);
+            rs = ps.executeUpdate();
+               
+        } catch (Exception e) {
+        }
     }
 
 }
