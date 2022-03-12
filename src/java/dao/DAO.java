@@ -184,14 +184,13 @@ public class DAO {
     }
     public void signup(String user, String pass){
         String query = "insert into Account\n" +
-"values(?,?,?,?)";
+"values(?,?,0,0)";
         try {
             conn = new DBContext().getConnection();//mo ket noi voi sql
             ps = conn.prepareStatement(query);
             ps.setString(1, user);
             ps.setString(2, pass);
-            rs = ps.executeUpdate();
-               
+            ps.executeUpdate();             
         } catch (Exception e) {
         }
     }
