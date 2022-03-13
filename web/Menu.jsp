@@ -17,7 +17,7 @@
                 </c:if>
                 <c:if test="${sessionScope.acc.isSell == 1}">
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Manager Product</a>
+                        <a class="nav-link" href="manager">Manager Product</a>
                     </li>
                 </c:if>
                 <c:if test="${sessionScope.acc != null}">

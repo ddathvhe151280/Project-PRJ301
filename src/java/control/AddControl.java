@@ -20,8 +20,8 @@ import javax.servlet.http.HttpSession;
  *
  * @author antoan
  */
-@WebServlet(name = "LoginControl", urlPatterns = {"/login"})
-public class LoginControl extends HttpServlet {
+@WebServlet(name = "AddControl", urlPatterns = {"/add"})
+public class AddControl extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -35,21 +35,21 @@ public class LoginControl extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-      String username = request.getParameter("user");
-      String password = request.getParameter("pass");
-      DAO dao = new DAO();
-      Account a =  dao.login(username, password);
-      if(a==null){
-          request.setAttribute("mess", "Tên tài khoản hoặc mật khẩu không đúng");
-          request.getRequestDispatcher("Login.jsp").forward(request, response);
-      }else{
-          HttpSession session = request.getSession();
-          session.setAttribute("acc", a);
-          session.setMaxInactiveInterval(100);
-          response.sendRedirect("home");
-      }
-              
-      
+        request.setCharacterEncoding("UTF-8");
+       String pname = request.getParameter("name");
+       String pimage = request.getParameter("image");
+       String pprice = request.getParameter("price");
+       String ptitle = request.getParameter("title");
+       String pdescription = request.getParameter("description");
+       String pcategory = request.getParameter("category");
+       HttpSession  session = request.getSession();
+       Account a = (Account) session.getAttribute("acc");      
+       int sid = a.getId();
+       
+       DAO dao = new DAO();
+       dao.insertProduct(pname, pimage, pprice, ptitle, pdescription, pcategory, ptitle);
+       response.sendRedirect("manager");
+       
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

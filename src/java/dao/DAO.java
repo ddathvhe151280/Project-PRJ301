@@ -65,6 +65,27 @@ public class DAO {
         }
         return list;
     }
+     public List<Product> getProductBySellID(int id) {
+        List<Product> list = new ArrayList<>();
+        String query = "select * from product\n" +
+"where sell_ID = ?";
+        try {
+            conn = new DBContext().getConnection();//mo ket noi voi sql
+            ps = conn.prepareStatement(query);
+            ps.setInt(1, id);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                list.add(new Product(rs.getInt(1),
+                        rs.getString(2),
+                        rs.getString(3),
+                        rs.getDouble(4),
+                        rs.getString(5),
+                        rs.getString(6)));
+            }
+        } catch (Exception e) {
+        }
+        return list;
+    }
       public Product getProductByID(String id) {
         String query = "select * from product\n" +
 "where id = ?";
@@ -194,5 +215,38 @@ public class DAO {
         } catch (Exception e) {
         }
     }
+    public void deleteProduct(String pid){
+        String query ="delete from product\n" +
+"where id = 1" ;
+        try {
+             conn = new DBContext().getConnection();//mo ket noi voi sql
+            ps = conn.prepareStatement(query);
+            ps.setString(1, pid);
+            
+            ps.executeUpdate(); 
+        } catch (Exception e) {
+        }
+    }
+    public void insertProduct(String name, String image,String price,
+            String tille, String description, String category, String sid) {
+    String query = "INSERT [dbo].[product] \n" +
+"([name], [image], [price], [title], [description], [cateID], [sell_ID])\n" +
+" VALUES(?,?,?,?,?,?,?)";
+        try {
+             conn = new DBContext().getConnection();//mo ket noi voi sql
+            ps = conn.prepareStatement(query);
+            ps.setString(1, name);
+            ps.setString(2, image);
+            ps.setString(3, price);
+            ps.setString(4, tille);
+            ps.setString(5, description);
+            ps.setString(6, category);
+            ps.setString(7, sid);
+            
+            
+            ps.executeUpdate(); 
+        } catch (Exception e) {
+        }
+}
 
 }
