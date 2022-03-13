@@ -1,26 +1,38 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!--begin of menu-->
 <nav class="navbar navbar-expand-md navbar-dark bg-dark">
     <div class="container">
-        <a class="navbar-brand" href="home">Shoes</a>
+        <a class="navbar-brand" href="home">Trang chủ</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
 
         <div class="collapse navbar-collapse justify-content-end" id="navbarsExampleDefault">
             <ul class="navbar-nav m-auto">
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Manager Account</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Hello Alias</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="Login.jsp">Logout</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Login</a>
-                </li>
+                <c:if test="${sessionScope.acc.isAdmin == 1}">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Manager Account</a>
+                    </li>
+                </c:if>
+                <c:if test="${sessionScope.acc.isSell == 1}">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Manager Product</a>
+                    </li>
+                </c:if>
+                <c:if test="${sessionScope.acc != null}">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Hello ${sessionScope.acc.user}</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="logout">Logout</a>
+                    </li>
+                </c:if>
+                <c:if test="${sessionScope.acc == null}">
+                    <li class="nav-item">
+                        <a class="nav-link" href="Login.jsp">Login</a>
+                    </li>
+                </c:if>
             </ul>
 
             <form action="search" method="post" class="form-inline my-2 my-lg-0">
