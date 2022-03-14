@@ -20,8 +20,8 @@ import javax.servlet.http.HttpSession;
  *
  * @author antoan
  */
-@WebServlet(name = "AddControl", urlPatterns = {"/add"})
-public class AddControl extends HttpServlet {
+@WebServlet(name = "EditControl", urlPatterns = {"/edit"})
+public class EditControl extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -35,21 +35,17 @@ public class AddControl extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-         request.setCharacterEncoding("UTF-8");
-       String pname = request.getParameter("name");
-       String pimage = request.getParameter("image");
-       String pprice = request.getParameter("price");
-       String ptitle = request.getParameter("title");
-       String pdescription = request.getParameter("description");
-       String pcategory = request.getParameter("category");
-       HttpSession  session = request.getSession();
-       Account a = (Account) session.getAttribute("acc");      
-       int sid = a.getId();
-       
-       DAO dao = new DAO();
-       dao.insertProduct(pname, pimage, pprice, ptitle, pdescription, pcategory, sid);
-       response.sendRedirect("manager");
-       
+        request.setCharacterEncoding("UTF-8");
+        String pid = request.getParameter("id");
+        String pname = request.getParameter("name");
+        String pimage = request.getParameter("image");
+        String pprice = request.getParameter("price");
+        String ptitle = request.getParameter("title");
+        String pdescription = request.getParameter("description");
+        String pcategory = request.getParameter("category");
+        DAO dao = new DAO();
+        dao.editProduct(pname, pimage, pprice, ptitle, pdescription, pcategory, pid);
+        response.sendRedirect("manager");
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

@@ -6,22 +6,23 @@
 package control;
 
 import dao.DAO;
-import emlity.Account;
+import emlity.Category;
+import emlity.Product;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 /**
  *
  * @author antoan
  */
-@WebServlet(name = "AddControl", urlPatterns = {"/add"})
-public class AddControl extends HttpServlet {
+@WebServlet(name = "LoatControl", urlPatterns = {"/loatProduct"})
+public class LoatControl extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -35,21 +36,15 @@ public class AddControl extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-         request.setCharacterEncoding("UTF-8");
-       String pname = request.getParameter("name");
-       String pimage = request.getParameter("image");
-       String pprice = request.getParameter("price");
-       String ptitle = request.getParameter("title");
-       String pdescription = request.getParameter("description");
-       String pcategory = request.getParameter("category");
-       HttpSession  session = request.getSession();
-       Account a = (Account) session.getAttribute("acc");      
-       int sid = a.getId();
+        request.setCharacterEncoding("UTF-8");
+        String id = request.getParameter("pid");
+        DAO dao = new DAO();
+        Product p = dao.getProductByID(id);
+        List<Category> listC = dao.getAllCategory();
        
-       DAO dao = new DAO();
-       dao.insertProduct(pname, pimage, pprice, ptitle, pdescription, pcategory, sid);
-       response.sendRedirect("manager");
-       
+        request.setAttribute("detail", p);
+        request.setAttribute("listCC", listC);
+        request.getRequestDispatcher("Edit.jsp").forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

@@ -1,8 +1,3 @@
-<%-- 
-    Document   : ManagerProduct
-    Created on : Dec 28, 2020, 5:19:02 PM
-    Author     : trinh
---%>
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -72,8 +67,8 @@
                                 </td>
                                 <td>${o.price} $</td>
                                 <td>
-                                    <a href="#editEmployeeModal"  class="edit" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
-                                    <a href="#deleteEmployeeModal" class="delete" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
+                                    <a href="loatProduct?pid=${o.id}"  class="edit" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
+                                    <a href="delete?pid=${o.id}" class="delete" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
                                 </td>
                             </tr>
                         </c:forEach>
@@ -126,8 +121,8 @@
                             <div class="form-group">
                                 <label>Category</label>
                                 <select name="category" class="form-select" aria-label="Default select example">
-                                    <c:forEach items="${listC}" var="o">
-                                        <option value="${o.id}">${o.name}</option>
+                                    <c:forEach items="${listCC}" var="o">
+                                        <option value="${o.cid}">${o.cname}</option>
                                     </c:forEach>
                                 </select>
                             </div>
