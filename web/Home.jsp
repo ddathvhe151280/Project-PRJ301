@@ -19,9 +19,9 @@
                     <div class="col">
                         <nav aria-label="breadcrumb">
                             <ol class="breadcrumb">
-                                <li class="breadcrumb-item"><a href="Home.jsp">Home</a></li>
+<!--                                <li class="breadcrumb-item"><a href="Home.jsp">Home</a></li>
                                 <li class="breadcrumb-item"><a href="#">Category</a></li>
-                                <li class="breadcrumb-item active" aria-current="#">Sub-category</li>
+                                <li class="breadcrumb-item active" aria-current="#">Sub-category</li>-->
                             </ol>
                         </nav>
                     </div>
@@ -42,10 +42,10 @@
                                         <p class="card-text show_txt">${o.title}</p>
                                         <div class="row">
                                             <div class="col">
-                                                <p class="btn btn-danger btn-block">${o.price} $</p>
+                                                <p class="btn btn-danger btn-block">${o.price}00 VND</p>
                                             </div>
                                             <div class="col">
-                                                <a href="#" class="btn btn-success btn-block">Add to cart</a>
+                                                <a href="cart?id=${o.id}" class="btn btn-success btn-block">Add to cart</a>
                                             </div>
                                         </div>
                                     </div>

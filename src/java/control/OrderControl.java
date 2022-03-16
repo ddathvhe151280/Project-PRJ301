@@ -6,51 +6,56 @@
 package control;
 
 import dao.DAO;
-import emlity.Category;
-import emlity.Product;
+import emlity.Cart;
+
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
  *
- * @author antoan
+ * @author trinh
  */
-@WebServlet(name = "SearchControl", urlPatterns = {"/search"})
-public class SearchControl extends HttpServlet {
+@WebServlet(name = "OrderControl", urlPatterns = {"/order"})
+public class OrderControl extends HttpServlet {
 
-    /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        request.setCharacterEncoding("UTF-8");
-        String txtSearch = request.getParameter("txt");
-        
+        Cookie arr[] = request.getCookies();
+        List<Cart> list = new ArrayList<>();
         DAO dao = new DAO();
-        List<Product> list = dao.searchByName(txtSearch);
-        List<Category> listC = dao.getAllCategory();
-        Product last = dao.getLast();
-        
-        
-        request.setAttribute("listP", list);
-        request.setAttribute("listCC", listC);
-        request.setAttribute("p", last);
-         request.setAttribute("txtS", txtSearch);
-        request.getRequestDispatcher("Home.jsp").forward(request, response);
-            
+        for (Cookie o : arr) {
+            if (o.getName().equals("id")) {
+                String txt[] = o.getValue().split(",");
+                for (String s : txt) {
+                    list.add(dao.getProduct(s));
+                }
+            }
+        }
+        for (int i = 0; i < list.size(); i++) {
+            int count = 1;
+            for (int j = i+1; j < list.size(); j++) {
+                if(list.get(i).getId() == list.get(j).getId()){
+                    count++;
+                    list.remove(j);
+                    j--;
+                    list.get(i).setAmount(count);
+                }
+            }
+        }
+        for (Cookie o : arr) {
+            o.setMaxAge(0);
+            response.addCookie(o);
+        }
+        response.sendRedirect("Home.jsp");
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
