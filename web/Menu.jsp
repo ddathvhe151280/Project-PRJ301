@@ -27,12 +27,12 @@
             <ul class="navbar-nav m-auto">
                 <c:if test="${sessionScope.acc.isAdmin == 1}">
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Manager Account</a>
+                        <a class="nav-link" href="#">Quản lý tài khoản</a>
                     </li>
                 </c:if>
                 <c:if test="${sessionScope.acc.isSell == 1}">
                     <li class="nav-item">
-                        <a class="nav-link" href="manager">Manager Product</a>
+                        <a class="nav-link" href="manager">Quản lý sản phẩm</a>
                     </li>
                 </c:if>
                 <c:if test="${sessionScope.acc != null}">
@@ -60,8 +60,8 @@
                     </div>
                 </div>
                 <a class="btn btn-success btn-sm ml-3" href="Cart.jsp">
-                    <i class="fa fa-shopping-cart"></i> Cart
-                    <span class="badge badge-light">3</span>
+                     <a class="nav-link" href="print">Cart</a>
+                    <span class="badge badge-light"></span>
                 </a>
             </form>
         </div>
