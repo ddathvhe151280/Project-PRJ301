@@ -46,7 +46,89 @@ public class DAO {
         }
         return list;
     }
+    public Account getAllAccountByID(String id) {
+        String query = "Select * from Account\n"
+                + "where uID = ?";
+        try {
+            conn = new DBContext().getConnection();
 
+            ps = conn.prepareStatement(query);
+            ps.setString(1, id);//mo ket noi voi sql
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                return (new Account(rs.getInt(1),
+                        rs.getString(2),
+                        rs.getString(3),
+                        rs.getInt(4),
+                        rs.getInt(5)));
+            }
+        } catch (Exception e) {
+        }
+        return null;
+    }
+    public List<Account> getAllAccount() {
+        List<Account> list = new ArrayList<>();
+        String query = "select * from Account";
+        try {
+            conn = new DBContext().getConnection();//mo ket noi voi sql
+            ps = conn.prepareStatement(query);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                list.add(new Account(rs.getInt(1),
+                        rs.getString(2),
+                        rs.getString(3),
+                        rs.getInt(4),
+                        rs.getInt(5)));
+            }
+        } catch (Exception e) {
+        }
+        return list;
+    }
+     public int InsertAcount(String user, String pass, String isSell, String isAdmin) {
+        String query = "insert [dbo].[Account]\n"
+                + "([user],[pass],[isSell],[isAdmin])\n"
+                + "VALUES(?,?,?,?)";
+        int a = 0;
+        try {
+            conn = new DBContext().getConnection();
+
+            ps = conn.prepareStatement(query);
+            ps.setString(1, user);
+            ps.setString(2, pass);
+            ps.setString(3, isSell);
+            ps.setString(4, isAdmin);
+            a = ps.executeUpdate();
+
+        } catch (Exception e) {
+        }
+        return a;
+
+    }
+public int EditAccount(String user, String pass, String isSell, String isAdmin, String uid) {
+        String query = "UPDATE Account\n"
+                + "                set [user]=?,\n"
+                + "                [pass]=?,\n"
+                + "                [isSell]=?,\n"
+                + "                [isAdmin]=?\n"
+                + "                where uID=?";
+        int a = 0;
+        try {
+            conn = new DBContext().getConnection();
+
+            ps = conn.prepareStatement(query);
+            ps.setString(1, user);
+            ps.setString(2, pass);
+            ps.setString(3, isSell);
+            ps.setString(4, isAdmin);
+
+            ps.setString(5, uid);
+            a = ps.executeUpdate();
+
+        } catch (Exception e) {
+        }
+        return a;
+
+    }
     public List<Product> getTop3() {
         List<Product> list = new ArrayList<>();
         String query = "select top 3 * from product";

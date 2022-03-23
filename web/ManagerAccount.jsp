@@ -1,3 +1,8 @@
+<%-- 
+    Document   : ManagerAccount
+    Created on : Mar 16, 2022, 11:59:43 PM
+    Author     : anhtu
+--%>
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -27,106 +32,98 @@
                 <div class="table-title">
                     <div class="row">
                         <div class="col-sm-6">
-                            <h2>Manage <b>Product</b></h2>
+                            <h2>Manage <b>Account</b></h2>
+                            <h4 style="color: red" >${mess_dele}</h4> 
                         </div>
                         <div class="col-sm-6">
-                            <a href="#addEmployeeModal"  class="btn btn-success" data-toggle="modal"><i class="material-icons">&#xE147;</i> <span>Add New Product</span></a>
-                            <a href="#deleteEmployeeModal" class="btn btn-danger" data-toggle="modal"><i class="material-icons">&#xE15C;</i> <span>Delete</span></a>						
+                            <a href="#addEmployeeModal"  class="btn btn-success" data-toggle="modal"><i class="material-icons">&#xE147;</i> <span>Add New Account</span></a>
+                            
+                          <!--  <a href="#deleteEmployeeModal" class="btn btn-danger" data-toggle="modal"><i class="material-icons">&#xE15C;</i> <span>Delete</span></a>	-->					
                         </div>
                     </div>
                 </div>
                 <table class="table table-striped table-hover">
                     <thead>
                         <tr>
-                            <th>
+                          <%--  <th>
                                 <span class="custom-checkbox">
-                                    <input type="checkbox" id="selectAll">
+                                    <input type="checkbox" id="selectAll">Select All
                                     <label for="selectAll"></label>
                                 </span>
-                            </th>
-                            <th>ID</th>
-                            <th>Name</th>
-                            <th>Image</th>
-                            <th>Price</th>
+                            </th>--%>
+                            <th>id</th>
+                            <th>user</th>
+                            <th>pass</th>
+                            <th>isSell</th>
+                            <th>isAdmin</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <c:forEach items="${listP}" var="o">
+                        <c:forEach items="${listU}" var="o">
                             <tr>
-                                <td>
+                               <%-- <td>
                                     <span class="custom-checkbox">
                                         <input type="checkbox" id="checkbox1" name="options[]" value="1">
                                         <label for="checkbox1"></label>
                                     </span>
-                                </td>
+                                </td>--%>
                                 <td>${o.id}</td>
-                                <td>${o.name}</td>
+                                <td>${o.user}</td>
+                                <td>${o.pass}</td>
+                                <td>${o.isSell}</td>
+                                <td>${o.isAdmin}</td>
+                                
                                 <td>
-                                    <img src="${o.image}">
-                                </td>
-                                <td>${o.price} 00VND</td>
-                                <td>
-                                    <a href="loatProduct?pid=${o.id}"  class="edit" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
-                                    <a href="delete?pid=${o.id}" class="delete" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
+                                    <a href="EditAccountControl?uid=${o.id}"  class="edit" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
+                                    <a href="DeleteAccount?uid=${o.id}" class="delete" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
                                 </td>
                             </tr>
                         </c:forEach>
                     </tbody>
                 </table>
-                <div class="clearfix">
+               <!--<div class="clearfix">
                     <div class="hint-text">Showing <b>5</b> out of <b>25</b> entries</div>
                     <ul class="pagination">
-<!--                        <li class="page-item disabled"><a href="#">Previous</a></li>
+                        <li class="page-item disabled"><a href="#">Previous</a></li>
                         <li class="page-item"><a href="#" class="page-link">1</a></li>
                         <li class="page-item"><a href="#" class="page-link">2</a></li>
                         <li class="page-item active"><a href="#" class="page-link">3</a></li>
                         <li class="page-item"><a href="#" class="page-link">4</a></li>
                         <li class="page-item"><a href="#" class="page-link">5</a></li>
-                        <li class="page-item"><a href="#" class="page-link">Next</a></li>-->
+                        <li class="page-item"><a href="#" class="page-link">Next</a></li>
                     </ul>
                 </div>
             </div>
         </div>
-<!--        <a href="home"><button type="button" class="btn btn-primary">Back to home</button>-->
         <!-- Edit Modal HTML -->
         <div id="addEmployeeModal" class="modal fade">
             <div class="modal-dialog">
                 <div class="modal-content">
-                    <form action="add" method="post">
+                    <form action="addAcount" method="post">
+                        
                         <div class="modal-header">						
-                            <h4 class="modal-title">Add Product</h4>
-                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                            <h4 class="modal-title">Edit Account</h4>
+                            <!--<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>-->
                         </div>
                         <div class="modal-body">					
                             <div class="form-group">
-                                <label>Name</label>
-                                <input name="name" type="text" class="form-control" required>
+                                <label>UserName</label>
+                                <input  name="user" type="text" class="form-control" required>
                             </div>
                             <div class="form-group">
-                                <label>Image</label>
-                                <input name="image" type="text" class="form-control" required>
+                                <label>PassWord</label>
+                                <input  name="pass" type="text" class="form-control" required>
                             </div>
                             <div class="form-group">
-                                <label>Price</label>
-                                <input name="price" type="text" class="form-control" required>
+                                <label>isSeller</label>
+                                <input name="isSell" type="checkbox" >
+                                <label>isAdmin</label>
+                                <input name="isAdmin" type="checkbox" >
                             </div>
-                            <div class="form-group">
-                                <label>Title</label>
-                                <textarea name="title" class="form-control" required></textarea>
-                            </div>
-                            <div class="form-group">
-                                <label>Description</label>
-                                <textarea name="description" class="form-control" required></textarea>
-                            </div>
-                            <div class="form-group">
-                                <label>Category</label>
-                                <select name="category" class="form-select" aria-label="Default select example">
-                                    <c:forEach items="${listCC}" var="o">
-                                        <option value="${o.cid}">${o.cname}</option>
-                                    </c:forEach>
-                                </select>
-                            </div>
+                            
+                            
+                            
 
                         </div>
                         <div class="modal-footer">
@@ -137,23 +134,24 @@
                 </div>
             </div>
         </div>
+        <a href="home"><button type="button" class="btn btn-primary">Back to home</button>
         <!-- Edit Modal HTML -->
         <div id="editEmployeeModal" class="modal fade">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <form>
                         <div class="modal-header">						
-                            <h4 class="modal-title">Edit Employee</h4>
-                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                            <h4 class="modal-title">Edit Account</h4>
+                           <!-- <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>-->
                         </div>
                         <div class="modal-body">					
                             <div class="form-group">
-                                <label>Name</label>
+                                <label>User</label>
                                 <input type="text" class="form-control" required>
                             </div>
                             <div class="form-group">
-                                <label>Email</label>
-                                <input type="email" class="form-control" required>
+                                <label>PassWord</label>
+                                <input type="text" class="form-control" required>
                             </div>
                             <div class="form-group">
                                 <label>Address</label>
@@ -178,7 +176,7 @@
                 <div class="modal-content">
                     <form>
                         <div class="modal-header">						
-                            <h4 class="modal-title">Delete Product</h4>
+                            <h4 class="modal-title">Delete Account</h4>
                             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                         </div>
                         <div class="modal-body">					
@@ -195,13 +193,7 @@
         </div>
         <script src="js/manager.js" type="text/javascript"></script>
         <script>
-//   funciton acd(id){
-//       var o = confirm("Bạn có muốn xóa không ");
-//       if(o==true){
-//           window.location.href="" 
-//       }
-//   }
+               
         </script>
     </body>
-    <a href="home" ><button style="text-align: center" type="button" class="btn btn-primary">Back to home</button>
 </html>
